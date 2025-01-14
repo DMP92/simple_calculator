@@ -8,13 +8,18 @@ export default class Calc {
         return this.total;
     }
 
-    addition(a, b) {
+    add(a, b) {
         this.total += a + b;
         return this.total;
     }
 
-    subtraction(a, b) {
+    subtract(a, b) {
         this.total += a - b;
+        return this.total;
+    }
+
+    divide(a, b) {
+        this.total += (a / b)
         return this.total;
     }
 }
