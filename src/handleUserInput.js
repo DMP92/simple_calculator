@@ -1,5 +1,5 @@
 // Handles formatting
-import { groupInput } from './handleRunningTotal.js';
+import { formatOperandOne } from './formatNumbers.js';
 
 // Handles calculations
 import Calc from './Calc.js';
@@ -10,14 +10,16 @@ let calculator = new Calc();
 const numericButtons = document.querySelectorAll('.num_button');
 const mathematicButtons = document.querySelectorAll('.math_button');
 const runComputation = document.querySelector('.calculate');
-const screen = document.querySelector('.calc_screen');
+const screen = document.querySelector('.calc_user_input');
+const total = document.querySelector('.calc_total');
 
 // Value variables
 let runningTotal = [];
 let mathematics = {
     operand1: 0,
     operator: '',
-    operand2: 0
+    operand2: 0,
+    total: 0
 }
 
 /* 
@@ -27,8 +29,15 @@ function watchForButtonPress() {
     // Print to screen
     numericButtons.forEach(button => {
         button.addEventListener('click', () => {
-            groupInput(button.textContent, runningTotal, mathematics.operator);
-            printScreen(runningTotal)
+            if(mathematics.operator == '') {
+                mathematics.operand1 = formatOperandOne(button.textContent, runningTotal, mathematics.operator);
+                printScreen(runningTotal)
+                console.log(runningTotal, mathematics.operand1, mathematics.operand2)
+            } else {
+                mathematics.operand2 = formatOperandOne(button.textContent, runningTotal, mathematics.operator);
+                printScreen(runningTotal)
+                console.log(runningTotal, mathematics.operand1, mathematics.operand2)
+            }
         })
     })
     
@@ -36,12 +45,13 @@ function watchForButtonPress() {
         button.addEventListener('click', () => {
             mathematics.operator = button.textContent;
             updateOperands()
+            runningTotal[0] = 0;
+            printScreen(runningTotal)
         })
     })
     
     runComputation.addEventListener('click', () => {
-        console.log(runningTotal)
-        console.table(runningTotal)
+        console.log(mathematics)
         handleMathButtons()
     })
 }
@@ -60,30 +70,35 @@ function updateOperands() {
 
 function printScreen(num) {
     if (Array.isArray(num)) {
-        let combineTotal = '';
+        let combineTotal = ``;
         for (let i = 0; i <= num.length - 1; i++) {
             combineTotal += num[i]
         }
         if(combineTotal != '') screen.textContent = combineTotal
-
-        screen.textContent = combineTotal;
+        
+        if(mathematics.operator != '') {
+            screen.textContent = `${mathematics.operand1} ${mathematics.operator} ${mathematics.operand2}`;
+            handleMathButtons(mathematics.operator)
+        } else {
+            screen.textContent = `${mathematics.operand1}`;
+            handleMathButtons(mathematics.operator)
+        }
     }
 }
 
 function handleMathButtons(button) {
     switch(true) {
         case mathematics.operator == '/':
-            mathematics.operand1 = runningTotal[0];
-            console.log('does this even work')
-            console.log(mathematics)
+            total.textContent = calculator.divide(mathematics.operand1, mathematics.operand2);
             break
         case mathematics.operator == '*':
-            console.log()
+            total.textContent = calculator.multiply(mathematics.operand1, mathematics.operand2);
             break
         case mathematics.operator == '-':
-            console.log()
+            total.textContent = calculator.subtract(mathematics.operand1, mathematics.operand2);
             break
         case mathematics.operator == '+':
+            total.textContent = calculator.add(mathematics.operand1, mathematics.operand2);
             break
     }
 }

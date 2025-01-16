@@ -35,9 +35,12 @@ section {
     height: 80px;
     border-radius: 6px;
     padding: 20px;
+    padding-bottom: 5px;
     width: auto;
     max-width: 100%;
     display: flex;
+    flex-direction: column;
+    grid-row-gap: 5px;
     justify-content: end;
     align-items: end;
     font-size: 25px;
@@ -45,6 +48,14 @@ section {
     font-weight: 500;
 }
 
+.calc_user_input {
+
+}
+
+.calc_total {
+    color: gray;
+    font-size: 15px;
+}
 
 .calc_numeric_button_group {
     display: flex;

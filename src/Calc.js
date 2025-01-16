@@ -4,22 +4,22 @@ export default class Calc {
     }
 
     multiply(a, b) {
-        this.total += a * b;
+        this.total = a * b;
         return this.total;
     }
 
     add(a, b) {
-        this.total += a + b;
+        this.total = a + b;
         return this.total;
     }
 
     subtract(a, b) {
-        this.total += a - b;
+        this.total = a - b;
         return this.total;
     }
 
     divide(a, b) {
-        this.total += (a / b)
+        this.total = (a / b)
         return this.total;
     }
 }
