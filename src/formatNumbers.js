@@ -1,5 +1,5 @@
 
-function formatOperandOne (num, total, operator) {
+function formatNumbers (num, total, operator) {
     let tailFigure = ''
     
     if(total.length != 0) {
@@ -11,4 +11,4 @@ function formatOperandOne (num, total, operator) {
     }
 }
 
-export { formatOperandOne }
+export { formatNumbers }
