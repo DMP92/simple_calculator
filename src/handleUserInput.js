@@ -5,7 +5,6 @@ import { formatNumbers } from './formatNumbers.js';
 import Calc from './Calc.js';
 let calculator = new Calc();
 
-
 // DOM Variables
 const calcButtons = document.querySelectorAll('.calc_button');
 const screen = document.querySelector('.calc_user_input');
@@ -16,59 +15,70 @@ let runningTotal = [];
 
 // State
 let mathematics = {
-    operand1: 0,
+    operand1: '',
     operator: '',
-    operand2: 0,
+    operand2: '',
     total: 0
 }
 
 /* 
 ** Event Listeners 
 */
-function handleCalculatorButtonClicks() {
+function handleButtonClicks() {
     calcButtons.forEach(button => {
         button.addEventListener('click', () => {
-            let type = button.getAttribute('button-type');
-            let textContent = button.textContent;
-            if(type == 'num') {
-                updateOperand(textContent)
-            } else if (type == 'math') {
-                updateOperator(textContent)
-            } else {
-                handleMathButtons()
-            }
+            handleCalculatorLogic(button)
         })
     })
 }
+handleButtonClicks()
 
-handleCalculatorButtonClicks()
-
-// Update mathematics object
-function updateOperand(text) {
-        mathematics.operator == '' 
-        ? mathematics.operand1 = formatNumbers(text, runningTotal, mathematics.operator) : 
-        mathematics.operand2 = formatNumbers(text, runningTotal, mathematics.operator);
-        printScreen(runningTotal)
-        console.log(mathematics)
-}
-
-function updateOperator(text) {
-    mathematics.operator = text;
-    runningTotal[0] = 0;
-    printScreen(runningTotal)
+// Handle logic behind key press
+function handleCalculatorLogic(button) {
+    let type = button.getAttribute('button-type');
+    let textContent = button.textContent;
+    let mode = 'generalComputations'
+    if(type == 'operand') {
+        if(mathematics.operator == '') {
+            mathematics.operand1 = formatNumbers(textContent, runningTotal, mathematics.operator)
+        } else {
+            mathematics.operand2 = formatNumbers(textContent, runningTotal, mathematics.operator);
+            handleMath()
+        }
+        mode = 'generalComputations'
+    } else if (type == 'operator') {
+        if (mathematics.operand2 != '') {
+            mathematics.operator = textContent;
+            runningTotal[0] = 0;
+            mathematics.operand1 = mathematics.total
+            mathematics.operand2 = ''
+            mode = 'generalComputations'
+        } else {
+            mathematics.operator = textContent;
+            runningTotal[0] = 0;
+            mode = 'generalComputations'
+        }
+    } else {
+        handleMath()
+        mode = 'total'
+    }
+    printScreen(mode)
 }
 
 // Handle printing data to screen
-function printScreen() {
-    if(mathematics.operator != '') {
+function printScreen(option) {
+    console.log(mathematics)
+    if (option == 'generalComputations') {
         screen.textContent = `${mathematics.operand1} ${mathematics.operator} ${mathematics.operand2}`;
-    } else {
-        screen.textContent = `${mathematics.operand1}`;
+        total.textContent = `${mathematics.total}`
+    } else if (option == 'total') {
+        screen.textContent = `${mathematics.total}`
+        total.textContent = ``
     }
 }
 
 // Call Calculator module
-function handleMathButtons() {
+function handleMath() {
     switch(true) {
         case mathematics.operator == '/':
             mathematics.total = calculator.divide(mathematics.operand1, mathematics.operand2);
