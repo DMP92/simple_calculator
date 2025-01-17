@@ -5,7 +5,6 @@ import { formatNumbers } from './formatNumbers.js';
 import Calc from './Calc.js';
 let calculator = new Calc();
 
-
 // DOM Variables
 const calcButtons = document.querySelectorAll('.calc_button');
 const screen = document.querySelector('.calc_user_input');
@@ -56,6 +55,7 @@ function updateOperator(text) {
     mathematics.operator = text;
     runningTotal[0] = 0;
     printScreen(runningTotal)
+    console.log(mathematics)
 }
 
 // Handle printing data to screen
