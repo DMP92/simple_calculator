@@ -1,5 +1,7 @@
 // Handles formatting
 import { formatOperandOne } from './formatNumbers.js';
+import './returnButtonData.js';
+import { clickedButtonData } from './returnButtonData.js';
 
 // Handles calculations
 import Calc from './Calc.js';
@@ -22,11 +24,13 @@ let mathematics = {
     total: 0
 }
 
+console.log(clickedButtonData)
 /* 
 ** Event Listeners 
 */
 function watchForButtonPress() {
     // Print to screen
+
     numericButtons.forEach(button => {
         button.addEventListener('click', () => {
             if(mathematics.operator == '') {
@@ -55,7 +59,7 @@ function watchForButtonPress() {
         handleMathButtons()
     })
 }
-watchForButtonPress()
+// watchForButtonPress()
 
 /*
 ** Functions
