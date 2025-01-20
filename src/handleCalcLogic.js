@@ -81,3 +81,5 @@ function handleMath() {
             break
         }
 }
+
+console.log('add decimal')
