@@ -45,7 +45,7 @@ export default function handleCalculatorLogic(button) {
             mathematics.operator = ''
             mode = ''
         } 
-        if(mathematics.operator == '') {
+        if(mathematics.operator == '') { // If this is the first use of the calculator
             mathematics.operand1 = formatNumbers(textContent, runningTotal)
         } else {
             mathematics.operand2 = formatNumbers(textContent, runningTotal);
