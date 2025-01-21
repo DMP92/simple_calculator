@@ -1,3 +1,4 @@
 import './style.css';
-import './handleUserInput.js'
+import { handleClicks } from './handleEvents.js';
 
+handleClicks()
