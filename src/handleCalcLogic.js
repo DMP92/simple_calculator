@@ -26,6 +26,12 @@ function formatNumbers (num, total) {
     }
 }
 
+function formatString(str) {
+    // Might make sense to just add a conditional to the return statements in formatNumbers(num, total, isString)
+    // Add an isString argument or something similar so that I can keep everything exactly the same, limit the amount of
+    // code, but also I can easily integrate the decimal points without having to rewrite the app entirely.
+}
+
 function resetMath() {
     mathematics.operand1 = '';
     mathematics.operand2 = '';
@@ -46,8 +52,10 @@ export default function handleCalculatorLogic(button) {
             mode = ''
         } 
         if(mathematics.operator == '') { // If this is the first use of the calculator
-            mathematics.operand1 = formatNumbers(textContent, runningTotal)
+            // mathematics.operand1 = formatString(textContent)
+               mathematics.operand1 = formatNumbers(textContent, runningTotal)
         } else {
+            // mathematics.operand2 = formatString(textContent)
             mathematics.operand2 = formatNumbers(textContent, runningTotal);
             handleMath(mathematics)
         }
@@ -67,7 +75,11 @@ export default function handleCalculatorLogic(button) {
         mode = '='
         mathematics.operator = '='
     } else if(type == 'decimal') {
-
+        if(mathematics.operand2 == '') {
+            console.log(mathematics, 'operand2 is empty', runningTotal)
+        } else {
+            console.log(mathematics, 'operand2 is present')
+        }
     }
     else {
         mathematics.operand1 = '0';
@@ -76,6 +88,9 @@ export default function handleCalculatorLogic(button) {
         mathematics.total = '0';
         runningTotal = []
     }
+    // console.log(mathematics, runningTotal)
+    // mathematics.operand2 = formatNumbers(textContent, runningTotal);
+    // handleMath(mathematics)
     printToScreen(mode, mathematics)
 }
 
