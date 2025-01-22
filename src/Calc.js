@@ -5,21 +5,21 @@ export default class Calc {
 
     multiply(a, b) {
         this.total = a * b;
-        return this.total;
+        return this.total.toFixed(2);
     }
 
     add(a, b) {
         this.total = a + b;
-        return this.total;
+        return this.total.toFixed(2);
     }
 
     subtract(a, b) {
         this.total = a - b;
-        return this.total;
+        return this.total.toFixed(2);
     }
 
     divide(a, b) {
         this.total = (a / b)
-        return this.total;
+        return this.total.toFixed(2);
     }
 }

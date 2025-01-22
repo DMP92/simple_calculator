@@ -26,39 +26,54 @@ function formatNumbers (num, total) {
     }
 }
 
+function resetMath() {
+    mathematics.operand1 = '';
+    mathematics.operand2 = '';
+    mathematics.operator = '';
+    mathematics.total = '';
+    runningTotal.pop()
+}
+
 // Handle calc logic
 export default function handleCalculatorLogic(button) {
     let type = button.getAttribute('button-type');
     let textContent = button.textContent;
-    let mode = 'generalComputations'
+    let mode = mathematics.operator
     if(type == 'operand') {
-        if(mathematics.operator == '') {
+        if(mode == '=') { // if the last operation was the equal sign
+            resetMath(); 
+            mathematics.operator = ''
+            mode = ''
+        } 
+        if(mathematics.operator == '') { // If this is the first use of the calculator
             mathematics.operand1 = formatNumbers(textContent, runningTotal)
         } else {
             mathematics.operand2 = formatNumbers(textContent, runningTotal);
             handleMath(mathematics)
         }
-        mode = 'generalComputations'
     } else if (type == 'operator' & mathematics.operand1 != '') {
         if (mathematics.operand2 != '') {
             mathematics.operator = textContent;
             runningTotal[0] = 0;
             mathematics.operand1 = mathematics.total
             mathematics.operand2 = ''
-            mode = 'generalComputations'
         } else {
+            if(mode == '=') { resetMath(); }
             mathematics.operator = textContent;
             runningTotal[0] = 0;
-            mode = 'generalComputations'
         }
     } else if (type == 'equalSign') {
         handleMath(mathematics)
-        mode = 'total'
-    } else {
-        mathematics.operand1 = '';
+        mode = '='
+        mathematics.operator = '='
+    } else if(type == 'decimal') {
+
+    }
+    else {
+        mathematics.operand1 = '0';
         mathematics.operand2 = '';
         mathematics.operator = '';
-        mathematics.total = '';
+        mathematics.total = '0';
         runningTotal = []
     }
     printToScreen(mode, mathematics)
