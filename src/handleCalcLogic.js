@@ -14,14 +14,40 @@ let mathematics = {
     total: 0
 }
 
-function formatNumbers (num, total) {
+// function formatNumbers (num) {
+//     let tailFigure = ''
+//     if(total.length != 0) {
+//         let headFigure = total[0].toString()
+//         tailFigure = Number(tailFigure.concat(headFigure, num))
+//         return total[0] = tailFigure.toString();
+//     } else {
+//         return total[0] = num;
+//     }
+// }
+
+function formatNumbers (num) {
     let tailFigure = ''
-    if(total.length != 0) {
-        let headFigure = total[0].toString()
+    if(mathematics.operand1 == '' && num == '.') {
+        let headFigure = '0'
         tailFigure = tailFigure.concat(headFigure, num)
-        return total[0] = tailFigure;
-    } else {
-        return total[0] = num;
+        return tailFigure.toString();
+    }
+    if(mathematics.operator == '') {
+        let headFigure = mathematics.operand1.toString()
+        tailFigure = tailFigure.concat(headFigure, num)
+        console.log(mathematics)
+        return tailFigure.toString();
+    } if(mathematics.operand2 == '' && num == '.') {
+        let headFigure = mathematics.operand2.toString()
+        tailFigure = tailFigure.concat(headFigure, num)
+        console.log(mathematics)
+        return tailFigure.toString();
+    }
+    else {
+        let headFigure = mathematics.operand2.toString()
+        tailFigure = tailFigure.concat(headFigure, num)
+        console.log(mathematics)
+        return tailFigure.toString();
     }
 }
 
@@ -31,6 +57,19 @@ function resetMath() {
     mathematics.operator = '';
     mathematics.total = '';
     runningTotal.pop()
+}
+
+function handleBackspace() {
+    switch(false) {
+        case mathematics.operand2 == '':
+            runningTotal = [Number(runningTotal.toString().slice(0, -1))]
+            return mathematics.operand2 = mathematics.operand2.slice(0, -1);
+        case mathematics.operator == '':
+            return mathematics.operator = mathematics.operator.slice(0, -1);
+        case mathematics.operand1 == '':
+            runningTotal = [Number(runningTotal.toString().slice(0, -1))]
+            return mathematics.operand1 = mathematics.operand1.slice(0, -1);
+    }
 }
 
 // Handle calc logic
@@ -50,14 +89,27 @@ export default function handleCalculatorLogic(button) {
             if(textContent == '.') { // limit decimal points
                 if(mathematics.operand1.toString().indexOf('.') != -1) return
             }
-            mathematics.operand1 = formatNumbers(textContent, runningTotal)
+            if(textContent == '0' && mathematics.operand1 == '0') {
+               return;
+            } else if (mathematics.operand1 == '0' && textContent != '.') {
+                console.log(mathematics)
+                mathematics.operand1 = textContent;
+            } else {
+                mathematics.operand1 = formatNumbers(textContent)
+            }
         } else {
-                if(textContent == '.') { // limit decimal points
-                    if(mathematics.operand2.toString().indexOf('.') != -1) return
-                }
-                mathematics.operand2 = formatNumbers(textContent, runningTotal);
+            if(textContent == '.') { // limit decimal points
+                if(mathematics.operand2.toString().indexOf('.') != -1) return
+            }
+            if(textContent == '0' && mathematics.operand2 == '0') {
+                return;
+            } else if (mathematics.operand2 == '0' && textContent != '.') {
+                mathematics.operand2 = textContent;
+            } else {
+                mathematics.operand2 = formatNumbers(textContent);
                 handleMath(mathematics)
             }
+        }
     } else if (type == 'operator' & mathematics.operand1 != '') {
         mode = textContent;
         if (mathematics.operand2 != '') {
@@ -74,8 +126,12 @@ export default function handleCalculatorLogic(button) {
         handleMath(mathematics)
         mode = '='
         mathematics.operator = '='
+    } else if (type =='undo') {
+        handleBackspace()
+        handleMath(mathematics)
     }
     else {
+        mode = ''
         mathematics.operand1 = '';
         mathematics.operand2 = '';
         mathematics.operator = '';
@@ -92,16 +148,16 @@ function handleMath() {
 
     switch(true) {
         case mathematics.operator == '/':
-            mathematics.total = calculator.divide(a, b);
+            mathematics.total = calculator.divide(a, b).toString();
             break
         case mathematics.operator == '*':
-            mathematics.total = calculator.multiply(a, b);
+            mathematics.total = calculator.multiply(a, b).toString();
             break
         case mathematics.operator == '-':
-            mathematics.total = calculator.subtract(a, b);
+            mathematics.total = calculator.subtract(a, b).toString();
             break
         case mathematics.operator == '+':
-            mathematics.total = calculator.add(a, b);
+            mathematics.total = calculator.add(a, b).toString();
             break
         }
 }
