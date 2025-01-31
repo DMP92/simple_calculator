@@ -1,4 +1,6 @@
 import './style.css';
-import { handleClicks } from './handleEvents.js';
+import { handleOperandClicks, handleOperatorClicks, handleUtilClicks } from './handleEvents.js';
 
-handleClicks()
+handleOperandClicks();
+handleOperatorClicks();
+handleUtilClicks();
