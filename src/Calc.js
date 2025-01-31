@@ -20,6 +20,6 @@ export default class Calc {
 
     divide(a, b) {
         this.total = (a / b)
-        return this.total;
+        return this.total.toFixed(2);
     }
 }
