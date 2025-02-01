@@ -11,38 +11,15 @@ let mathematics = {
     total: 0
 }
 
-function formatNumbers (num) {
-    let tailFigure = ''
-    let headFigure;
-    if(mathematics.operand1 == '' && num == '.') {
-        headFigure = '0'
-        tailFigure = tailFigure.concat(headFigure, num)
-        return tailFigure.toString();
+function formatNumbers (text, operand) {
+    if (text === '.' && operand === '') {
+        return operand.concat('0', '.')
     }
-    if(mathematics.operator == '') {
-        headFigure = mathematics.operand1.toString()
-        tailFigure = tailFigure.concat(headFigure, num)
-        console.log(mathematics)
-        return tailFigure.toString();
-    } if(mathematics.operand2 == '' && num == '.') {
-        headFigure = mathematics.operand2.toString()
-        tailFigure = tailFigure.concat(headFigure, num)
-        console.log(mathematics)
-        return tailFigure.toString();
-    }
-    else {
-        headFigure = mathematics.operand2.toString()
-        tailFigure = tailFigure.concat(headFigure, num)
-        console.log(mathematics)
-        return tailFigure.toString();
-    }
-}
-// function formatNumbers (num) {
-//     let tailFigure = ''
-//     return function (runningTotal) {
 
-//     }
-// }
+    return operand === '0' && text != '.'
+    ? operand.replace('0', '').concat(text)
+    : operand.concat(text);
+}
 
 function resetMath() {
     mathematics.operand1 = '';
@@ -59,6 +36,8 @@ function handleBackspace() {
             return mathematics.operator = mathematics.operator.slice(0, -1);
         case mathematics.operand1 == '':
             return mathematics.operand1 = mathematics.operand1.slice(0, -1);
+        default:
+            return resetMath()
     }
 }
 
@@ -84,14 +63,16 @@ function handleCalculatorUtilityButtons(util) {
 }
 
 function preventIncorrectOperandInput(operand, str) {
+    console.log(operand, str)
     if(str === '0') {
-        console.log(operand === '0')
+        return operand === '0'
+        ? false
+        : true
     } else if (str === '.') {
         return operand.indexOf('.') === -1
         ? true
         : false
     } else {
-        console.log('sup')
         return true;
     }
 }
@@ -104,12 +85,11 @@ function handleOperandButtons(operand) {
     
     if (mathematics.operator === '') { // Update operand1 if no operator is ''
         if (preventIncorrectOperandInput(mathematics.operand1, operand.textContent)) {
-            mathematics.operand1 = formatNumbers(operand.textContent)
-            console.log(preventIncorrectOperandInput(mathematics.operand1, operand.textContent))
+            mathematics.operand1 = formatNumbers(operand.textContent, mathematics.operand1)
         }
     } else { // If operator is detected, update operand2
         if (preventIncorrectOperandInput(mathematics.operand2, operand.textContent)) {
-            mathematics.operand2 = formatNumbers(operand.textContent)
+            mathematics.operand2 = formatNumbers(operand.textContent, mathematics.operand2)
         }
     }
     
@@ -117,70 +97,6 @@ function handleOperandButtons(operand) {
     printToScreen(mathematics.operator, mathematics)
 }
 
-// Handle calc logic
-// function handleCalculatorLogic(button) {
-//     let type = button.getAttribute('button-type');
-//     let textContent = button.textContent;
-//     let mode = mathematics.operator
-
-//     if(type == 'operand') {
-//         if(mode == '=') { // if the last operation was the equal sign
-//             resetMath(); 
-//             mode = ''
-//         } 
-        
-//         if(mathematics.operator == '') { // If this is the first use of the calculator
-//             if(textContent == '.') { // limit decimal points
-//                 if(mathematics.operand1.toString().indexOf('.') != -1) return
-//             }
-//             if(textContent == '0' && mathematics.operand1 == '0') {
-//                return;
-//             } else if (mathematics.operand1 == '0' && textContent != '.') {
-//                 console.log(mathematics)
-//                 mathematics.operand1 = textContent;
-//             } else {
-//                 mathematics.operand1 = formatNumbers(textContent)
-//             }
-//         } else {
-//             if(textContent == '.') { // limit decimal points
-//                 if(mathematics.operand2.toString().indexOf('.') != -1) return
-//             }
-//             if(textContent == '0' && mathematics.operand2 == '0') {
-//                 return;
-//             } else if (mathematics.operand2 == '0' && textContent != '.') {
-//                 mathematics.operand2 = textContent;
-//             } else {
-//                 mathematics.operand2 = formatNumbers(textContent);
-//                 handleMath(mathematics)
-//             }
-//         }
-//     } else if (type == 'operator' & mathematics.operand1 != '') {
-//         mode = textContent;
-//         if (mathematics.operand2 != '') {
-//             mathematics.operator = textContent;
-//             mathematics.operand1 = mathematics.total
-//             mathematics.operand2 = ''
-//         } else {
-//             if(mode == '=') { resetMath(); }
-//             mathematics.operator = textContent;
-//         }
-//     } else if (type == 'equalSign') {
-//         handleMath(mathematics)
-//         mode = '='
-//         mathematics.operator = '='
-//     } else if (type =='undo') {
-//         handleBackspace()
-//         handleMath(mathematics)
-//     }
-//     else {
-//         mode = ''
-//         mathematics.operand1 = '';
-//         mathematics.operand2 = '';
-//         mathematics.operator = '';
-//         mathematics.total = '';
-//     }
-//     printToScreen(mode, mathematics)
-// }
 
 // Call Calculator module
 function handleMath() {

@@ -3,7 +3,7 @@ const total = document.querySelector('.calc_total');
 
 // Handle printing data to screen
 export default function printToScreen(option, mathematics) {
-    if (mathematics.operand1 == '' && mathematics.total == '') {
+    if (mathematics.operand1 == '' || mathematics.operand1 == undefined) {
         screen.textContent = '0';
         total.textContent = '0'
         return
