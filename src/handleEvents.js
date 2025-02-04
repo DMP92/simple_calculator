@@ -31,7 +31,17 @@ function handleUtilClicks() {
 }
 
 function handleKeyPress() {
-    console.log('key pressed')
+    window.addEventListener('keydown', (e) => {
+        if(!isNaN(e.key)) {
+            handleOperandButtons(e.key)
+        } else if(e.key === '.') {
+            handleOperandButtons(e.key)
+        } else if (['+', '-', '*', '/', '=', 'Enter'].includes(e.key)) {
+            e.key === 'Enter' ? updateOperator('=') : updateOperator(e.key)
+        } else if (['Backspace', 'Escape']) {
+            e.key === 'Escape' ? handleCalculatorUtilityButtons('Clear') : handleCalculatorUtilityButtons('Undo')
+        }
+    })
 }
 
 

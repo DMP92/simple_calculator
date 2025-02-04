@@ -42,19 +42,25 @@ function handleBackspace() {
 }
 
 function updateOperator(operator) {
+    let sign;
+    typeof operator === 'string' ? sign = operator : sign = operator.textContent;
+
     // If operand2 is full: make operand1 the total, reset operand2, update operator
     if(mathematics.operand2 != '') {
         mathematics.operand1 = mathematics.total;
         mathematics.operand2 = '';
-        mathematics.operator = operator.textContent;
+        mathematics.operator = sign;
     }
-    mathematics.operator = operator.textContent;
+    mathematics.operator = sign;
     handleMath()
     printToScreen(mathematics.operator, mathematics)
 }
 
 function handleCalculatorUtilityButtons(util) {
-    util.textContent === 'Clear'
+    let button;
+    typeof util === 'string' ? button = util : button = util.textContent;
+
+    button === 'Clear'
     ? resetMath()
     : handleBackspace()
     
@@ -77,18 +83,20 @@ function preventIncorrectOperandInput(operand, str) {
 }
 
 function handleOperandButtons(operand) {
+    let num;
+    typeof operand === 'string' ? num = operand : num = operand.textContent;
     // Start from scratch if no operator was chosen
     if (mathematics.operator === '=') {
         resetMath()
     }
     
     if (mathematics.operator === '') { // Update operand1 if no operator is ''
-        if (preventIncorrectOperandInput(mathematics.operand1, operand.textContent)) {
-            mathematics.operand1 = formatNumbers(operand.textContent, mathematics.operand1)
+        if (preventIncorrectOperandInput(mathematics.operand1, num)) {
+            mathematics.operand1 = formatNumbers(num, mathematics.operand1)
         }
     } else { // If operator is detected, update operand2
-        if (preventIncorrectOperandInput(mathematics.operand2, operand.textContent)) {
-            mathematics.operand2 = formatNumbers(operand.textContent, mathematics.operand2)
+        if (preventIncorrectOperandInput(mathematics.operand2, num)) {
+            mathematics.operand2 = formatNumbers(num, mathematics.operand2)
         }
     }
     
