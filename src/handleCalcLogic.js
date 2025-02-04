@@ -63,7 +63,6 @@ function handleCalculatorUtilityButtons(util) {
 }
 
 function preventIncorrectOperandInput(operand, str) {
-    console.log(operand, str)
     if(str === '0') {
         return operand === '0'
         ? false
