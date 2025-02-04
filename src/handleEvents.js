@@ -30,4 +30,9 @@ function handleUtilClicks() {
     })
 }
 
-export { handleOperandClicks, handleOperatorClicks, handleUtilClicks }
+function handleKeyPress() {
+    console.log('key pressed')
+}
+
+
+export { handleOperandClicks, handleOperatorClicks, handleUtilClicks, handleKeyPress }
