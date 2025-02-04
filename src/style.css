@@ -114,3 +114,8 @@ section {
 .clear:hover {
     background-color: rgb(177, 101, 13);
 }
+
+.utilityContainer {
+    display: flex;
+    grid-column-gap: 5px;
+}

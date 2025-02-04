@@ -3,9 +3,6 @@ import printToScreen from "./printToScreen";
 
 let calculator = new Calc();
 
-// Value variables
-let runningTotal = [];
-
 // State
 let mathematics = {
     operand1: '',
@@ -14,16 +11,14 @@ let mathematics = {
     total: 0
 }
 
-function formatNumbers (num, total) {
-    let tailFigure = ''
-    
-    if(total.length != 0) {
-        let headFigure = total[0].toString()
-        tailFigure = tailFigure.concat(headFigure, num)
-        return total[0] = parseInt(tailFigure)
-    } else {
-        return total[0] = parseInt(num)
+function formatNumbers (text, operand) {
+    if (text === '.' && operand === '') {
+        return operand.concat('0', '.')
     }
+
+    return operand === '0' && text != '.'
+    ? operand.replace('0', '').concat(text)
+    : operand.concat(text);
 }
 
 function resetMath() {
@@ -31,68 +26,104 @@ function resetMath() {
     mathematics.operand2 = '';
     mathematics.operator = '';
     mathematics.total = '';
-    runningTotal.pop()
 }
 
-// Handle calc logic
-export default function handleCalculatorLogic(button) {
-    let type = button.getAttribute('button-type');
-    let textContent = button.textContent;
-    let mode = mathematics.operator
-    if(type == 'operand') {
-        if(mode == '=') { // if the last operation was the equal sign
-            resetMath(); 
-            mathematics.operator = ''
-            mode = ''
-        } 
-        if(mathematics.operator == '') { // If this is the first use of the calculator
-            mathematics.operand1 = formatNumbers(textContent, runningTotal)
-        } else {
-            mathematics.operand2 = formatNumbers(textContent, runningTotal);
-            handleMath(mathematics)
-        }
-    } else if (type == 'operator' & mathematics.operand1 != '') {
-        if (mathematics.operand2 != '') {
-            mathematics.operator = textContent;
-            runningTotal[0] = 0;
-            mathematics.operand1 = mathematics.total
-            mathematics.operand2 = ''
-        } else {
-            if(mode == '=') { resetMath(); }
-            mathematics.operator = textContent;
-            runningTotal[0] = 0;
-        }
-    } else if (type == 'equalSign') {
-        handleMath(mathematics)
-        mode = '='
-        mathematics.operator = '='
-    } else if(type == 'decimal') {
-
+function handleBackspace() {
+    switch(false) {
+        case mathematics.operand2 == '':
+            return mathematics.operand2 = mathematics.operand2.slice(0, -1);
+        case mathematics.operator == '':
+            return mathematics.operator = mathematics.operator.slice(0, -1);
+        case mathematics.operand1 == '':
+            return mathematics.operand1 = mathematics.operand1.slice(0, -1);
+        default:
+            return resetMath()
     }
-    else {
-        mathematics.operand1 = '0';
+}
+
+function updateOperator(operator) {
+    let sign;
+    typeof operator === 'string' ? sign = operator : sign = operator.textContent;
+
+    // If operand2 is full: make operand1 the total, reset operand2, update operator
+    if(mathematics.operand2 != '') {
+        mathematics.operand1 = mathematics.total;
         mathematics.operand2 = '';
-        mathematics.operator = '';
-        mathematics.total = '0';
-        runningTotal = []
+        mathematics.operator = sign;
     }
-    printToScreen(mode, mathematics)
+    mathematics.operator = sign;
+    handleMath()
+    printToScreen(mathematics.operator, mathematics)
 }
+
+function handleCalculatorUtilityButtons(util) {
+    let button;
+    typeof util === 'string' ? button = util : button = util.textContent;
+
+    button === 'Clear'
+    ? resetMath()
+    : handleBackspace()
+    
+    handleMath()
+    printToScreen(mathematics.operator, mathematics)
+}
+
+function preventIncorrectOperandInput(operand, str) {
+    if(str === '0') {
+        return operand === '0'
+        ? false
+        : true
+    } else if (str === '.') {
+        return operand.indexOf('.') === -1
+        ? true
+        : false
+    } else {
+        return true;
+    }
+}
+
+function handleOperandButtons(operand) {
+    let num;
+    typeof operand === 'string' ? num = operand : num = operand.textContent;
+    // Start from scratch if no operator was chosen
+    if (mathematics.operator === '=') {
+        resetMath()
+    }
+    
+    if (mathematics.operator === '') { // Update operand1 if no operator is ''
+        if (preventIncorrectOperandInput(mathematics.operand1, num)) {
+            mathematics.operand1 = formatNumbers(num, mathematics.operand1)
+        }
+    } else { // If operator is detected, update operand2
+        if (preventIncorrectOperandInput(mathematics.operand2, num)) {
+            mathematics.operand2 = formatNumbers(num, mathematics.operand2)
+        }
+    }
+    
+    handleMath()
+    printToScreen(mathematics.operator, mathematics)
+}
+
 
 // Call Calculator module
 function handleMath() {
+    let a = Number(mathematics.operand1);
+    let b = Number(mathematics.operand2);
+
     switch(true) {
         case mathematics.operator == '/':
-            mathematics.total = calculator.divide(mathematics.operand1, mathematics.operand2);
+            mathematics.total = calculator.divide(a, b).toString();
             break
         case mathematics.operator == '*':
-            mathematics.total = calculator.multiply(mathematics.operand1, mathematics.operand2);
+            mathematics.total = calculator.multiply(a, b).toString();
             break
         case mathematics.operator == '-':
-            mathematics.total = calculator.subtract(mathematics.operand1, mathematics.operand2);
+            mathematics.total = calculator.subtract(a, b).toString();
             break
         case mathematics.operator == '+':
-            mathematics.total = calculator.add(mathematics.operand1, mathematics.operand2);
+            mathematics.total = calculator.add(a, b).toString();
             break
         }
 }
+
+export { handleOperandButtons, updateOperator, handleCalculatorUtilityButtons }
