@@ -1,5 +1,6 @@
 import Calc from "./Calc";
 import printToScreen from "./printToScreen";
+import { animateButtonPress } from "./animate";
 
 let calculator = new Calc();
 
@@ -44,7 +45,6 @@ function handleBackspace() {
 function updateOperator(operator) {
     let sign;
     typeof operator === 'string' ? sign = operator : sign = operator.textContent;
-
     // If operand2 is full: make operand1 the total, reset operand2, update operator
     if(mathematics.operand2 != '') {
         mathematics.operand1 = mathematics.total;
