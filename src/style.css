@@ -1,5 +1,5 @@
 html, body {
-    background-color: #242424;
+    background-color: rgb(255, 226, 185);
     padding: 0;
     margin: 0;
     height: 100%;
@@ -20,18 +20,18 @@ section {
 }
 
 .calculator_body {
-    background-color: #ffffff;
+    background-color: #fcfcdc;
     border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     grid-row-gap: 20px;
     max-width: 320px;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.121);
 }
 
+/* Calculator Text */
 .calc_screen {
-    background-color: whitesmoke;
-    border: 0.5px solid #242424;
     height: 80px;
     border-radius: 6px;
     padding: 20px;
@@ -53,10 +53,28 @@ section {
 }
 
 .calc_total {
-    color: gray;
+    color: rgb(189, 187, 187);
     font-size: 15px;
 }
 
+/* Buttons */
+/* Utility Buttons */
+.calc_utility_button_group {
+    display: flex;
+    grid-column-gap: 5px;
+}
+
+.utility_button {
+    background-color: #ffe4ab;
+    color: black;
+    font-weight: 600;
+}
+
+.utility_button:hover {
+    background-color: #eecd85;
+}
+
+/* Number Buttons */
 .calc_numeric_button_group {
     display: flex;
     flex-wrap: wrap;
@@ -64,10 +82,11 @@ section {
     grid-column-gap: 5px;
 }
 
-.dark_button {
+.default_button {
     width: 80px;
-    background-color: #242424;
-    color: white;
+    background-color: #f1bc7b;
+    color: black;
+    font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     display: flex;
@@ -76,12 +95,15 @@ section {
     padding: 10px;
     border-radius: 6px;
     transition: 250ms ease-in-out;
+    /* box-shadow: inset 0px -5px 0px #d69c56; */
+    filter: drop-shadow(0px 5px 0px #d69c56)
 }
 
-.dark_button:hover { 
-    background-color: #4e4e4e;
+.default_button:hover { 
+    background-color: #d69c56;
 }
 
+/* Operator Buttons */
 .calc_math_butt_group {
     display: flex;
     flex-wrap: wrap;
@@ -89,10 +111,11 @@ section {
     grid-column-gap: 5px;
 }
 
-.blue_button {
+.operator_button {
     width: 80px;
-    background-color: #217caa;
-    color: white;
+    background-color: #ffb04f;
+    color: black;
+    font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     display: flex;
@@ -101,21 +124,9 @@ section {
     padding: 10px;
     border-radius: 6px;
     transition: 250ms ease-in-out;
+    filter: drop-shadow(0px 5px 0px #e18718)
 }
 
-.blue_button:hover { 
-    background-color: #145c80;
-}
-
-.clear {
-    background-color: rgb(236, 137, 25);
-}
-
-.clear:hover {
-    background-color: rgb(177, 101, 13);
-}
-
-.utilityContainer {
-    display: flex;
-    grid-column-gap: 5px;
+.operator_button:hover { 
+    background-color: #d68a2e;
 }

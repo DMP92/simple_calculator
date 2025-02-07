@@ -43,6 +43,7 @@ function handleBackspace() {
 }
 
 function updateOperator(operator) {
+    if(mathematics.operand1 === '') return;
     let sign;
     typeof operator === 'string' ? sign = operator : sign = operator.textContent;
     // If operand2 is full: make operand1 the total, reset operand2, update operator
