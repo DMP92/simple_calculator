@@ -1,5 +1,5 @@
 import { handleOperandButtons, updateOperator, handleCalculatorUtilityButtons } from './handleCalcLogic.js';
-import { animateButtonPress } from './animate.js';
+import { animateButtonPress, animateDarkModeToggle } from './animate.js';
 
 // Handle operand button clicks
 function handleOperandClicks() {
@@ -56,7 +56,6 @@ function handleKeyPress() {
             } else {
                 handleCalculatorUtilityButtons('Undo');
                 pressedKeyText = 'Undo';
-                console.log('NOT TRUE')
             }
         } else {
             pressedKeyText = '';
@@ -67,11 +66,45 @@ function handleKeyPress() {
 }
 
 function tieKeyPressToButtonElements(pressedKey) {
-    let calcButtons = document.querySelectorAll('.calc_button');
+    const calcButtons = document.querySelectorAll('.calc_button');
     calcButtons.forEach(button => {
         // console.log(button.textContent === pressedKey, button.textContent, pressedKey)
         return button.textContent === pressedKey ? animateButtonPress(button) : undefined;
     })
 }
+
+function handleLightAndDarkMode() {
+    const chosenMode = document.querySelector('.toggle');
+    const body = document.body;
+    
+    chosenMode.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+
+        const isDarkMode = body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
+    })
+
+    window.onload = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+    }
+}
+
+handleLightAndDarkMode()
+
+/**
+ * Darkmode Toggle
+ */
+function handleDarkModeToggle() {
+    const toggle = document.querySelector('.toggle');
+    toggle.addEventListener('click', () => {
+        animateDarkModeToggle(toggle)
+        toggle.classList.toggle('is-active')
+    })
+}
+
+handleDarkModeToggle()
 
 export { handleOperandClicks, handleOperatorClicks, handleUtilClicks, handleKeyPress }

@@ -19,7 +19,12 @@ export default class Calc {
     }
 
     divide(a, b) {
-        this.total = (a / b)
-        return this.total.toFixed(2);
+        let total = (a / b)
+        if(b === 0) {
+            return this.total;
+        } else {
+            this.total = total;
+            return Math.ceil(this.total);
+        }
     }
 }
