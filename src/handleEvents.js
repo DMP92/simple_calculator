@@ -83,11 +83,13 @@ function handleLightAndDarkMode() {
         const isDarkMode = body.classList.contains('dark-mode');
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
     })
-
+    
     window.onload = () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             body.classList.add('dark-mode');
+            chosenMode.classList.toggle('is-active')
+            animateDarkModeToggle(chosenMode)
         }
     }
 }
@@ -96,12 +98,12 @@ handleLightAndDarkMode()
 
 /**
  * Darkmode Toggle
- */
+*/
 function handleDarkModeToggle() {
     const toggle = document.querySelector('.toggle');
     toggle.addEventListener('click', () => {
-        animateDarkModeToggle(toggle)
         toggle.classList.toggle('is-active')
+        animateDarkModeToggle(toggle)
     })
 }
 

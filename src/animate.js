@@ -20,13 +20,13 @@ function animateButtonPress(button) {
 function animateDarkModeToggle(toggle) {
     if(toggle.classList.contains('is-active')) {
         gsap.to(toggle, {
-            xPercent: 0,
+            xPercent: 100,
             duration: '250ms',
             ease: 'expo.inOut'
         })
     } else {
         gsap.to(toggle, {
-            xPercent: 100,
+            xPercent: 0,
             duration: '250ms',
             ease: 'expo.inOut'
         })
