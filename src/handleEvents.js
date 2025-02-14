@@ -6,7 +6,7 @@ function handleOperandClicks() {
     const operand = document.querySelectorAll('[button-type="operand"]');
     operand.forEach(op => {
         op.addEventListener('click', () => {
-            handleOperandButtons(op)
+            handleOperandButtons(op.children[1].textContent)
         })
     })
 }
@@ -16,7 +16,7 @@ function handleOperatorClicks() {
     const operator = document.querySelectorAll('[button-type="operator"]')
     operator.forEach(op => {
         op.addEventListener('click', (e) => {
-            updateOperator(op)
+            updateOperator(op.children[1].textContent)
         })
     })
 }
@@ -26,7 +26,7 @@ function handleUtilClicks() {
     const utils = document.querySelectorAll('[button-type="util"]')
     utils.forEach(util => {
         util.addEventListener('click', () => {
-            handleCalculatorUtilityButtons(util)
+            handleCalculatorUtilityButtons(util.children[1].textContent)
         })
     })
 }
@@ -68,8 +68,17 @@ function handleKeyPress() {
 function tieKeyPressToButtonElements(pressedKey) {
     const calcButtons = document.querySelectorAll('.calc_button');
     calcButtons.forEach(button => {
+        let buttonText = button.querySelector('.button-text')?.textContent.trim();
+
+        if(buttonText === pressedKey) {
+            console.log(buttonText)
+            return animateButtonPress(button)
+        }
+        // else if (button.children[1].textContent === pressedKey) {
+        //     console.log(button.children)
+        // }
         // console.log(button.textContent === pressedKey, button.textContent, pressedKey)
-        return button.textContent === pressedKey ? animateButtonPress(button) : undefined;
+        // return buttonText === pressedKey ? animateButtonPress(button) : undefined;
     })
 }
 

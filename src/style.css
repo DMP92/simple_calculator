@@ -1,73 +1,18 @@
-/* :root {
-    --bg-color: rgb(255, 221, 174);
-    --text-color: black;
-    --text-color-total: rgb(189, 187, 187);
-    --utility-button-color: #ffe4ab;
-    --number-button-color: #f1bc7b;
-    --operator-button-color: #ffb04f;
-    --calculator-body: #fcfcdc;
-    --calculator-border: none;
-    
-    hover
-    --utility-button-color-hover: #eecd85;
-    --number-button-color-hover: #d69c56;
-    --operator-button-color-hover: #d68a2e;
-
-    filters
-    --button-filter: drop-shadow(2px 3px 0px #aa7400);
-    --pressed-button-filter: drop-shadow(0px 0px 0px #aa7400);
-
-    Theme Toggle
-    --theme-parent-bg-color: rgba(255, 127, 80, 0.305);
-    --toggle-primary-color: coral;
-} */
-
-/* .dark-mode {
-    --bg-color: #242424f1;
-    --text-color: white;
-    --text-color-total: rgb(189, 187, 187);
-    --utility-button-color: #857c6a;
-    --number-button-color: #533d27;
-    --operator-button-color: #f1af64;
-    --calculator-body: #292929;
-    --calculator-border: solid 0.1px rgb(99, 96, 96);
-    
-    hover
-    --utility-button-color-hover: #70695b;
-    --number-button-color-hover: #4d361e;
-    --operator-button-color-hover: #d39145;
-
-    filters
-    --button-filter: drop-shadow(1px 2px 0px #eeebe87f);
-    --pressed-button-filter: drop-shadow(0px 0px 0px #eeebe8de);
-
-    Theme Toggle
-    --theme-parent-bg-color: rgba(213, 199, 194, 0.305);
-    --theme-parent-border-color: rgb(255, 206, 188);
-    --toggle-primary-color: white;
-} */
 :root {
     --bg-color: #CBD7DC;
     --text-color: black;
     --text-color-secondary: white;
     --text-color-total: rgba(255, 255, 255, 0.438);
     --utility-button-color: #FFFFFF;
-    --utility-button-color-background: #ffffffcc;
+    --utility-button-color-background: #bbc8d1cc;
     --number-button-color: #DCE5EA;
+    --number-button-color-background: #b7c9d2;
+    --number-text-color: black;
     --operator-button-color: #3F545C;
-    --operator-button-color-background: #384a51;
+    --operator-button-color-background: #34454b;
     --calculator-body: #F1F6F9;
     --calculator-border: none;
     --calc-screen: #A2B5BD;
-    
-    /* hover */
-    /* --utility-button-color-hover: #eecd85;
-    --number-button-color-hover: #d69c56;
-    --operator-button-color-hover: #d68a2e; */
-
-    /* filters */
-    /* --button-filter: drop-shadow(2px 3px 0px #c7c6c6); */
-    /* --pressed-button-filter: drop-shadow(0px 0px 0px #aa7400); */
 
     /* Theme Toggle */
     --theme-parent-bg-color: #DCE5EA;
@@ -80,22 +25,16 @@
     --text-color-secondary: white;
     --text-color-total: rgba(255, 255, 255, 0.435);
     --utility-button-color: #C5E57D;
-    --number-button-color: #E5ECFC;
+    --utility-button-color-background: #afcd6a;
+    --number-button-color: #c7d5f6;
+    --number-button-color-background: #8a9cc3;
+    --number-text-color: black;
     --operator-button-color: #344DD0;
     --operator-button-color-background: #2f47c2;
     --calculator-body: #1F2D62;
     --calculator-border: solid 0.1px rgb(99, 96, 96);
     --calc-screen: #010413;
     
-    /* hover */
-    --utility-button-color-hover: #70695b;
-    --number-button-color-hover: #4d361e;
-    --operator-button-color-hover: #d39145;
-
-    /* filters */
-    /* --button-filter: drop-shadow(1px 2px 0px #eeebe87f);
-    --pressed-button-filter: drop-shadow(0px 0px 0px #eeebe8de); */
-
     /* Theme Toggle */
     --theme-parent-bg-color: rgba(52, 77, 208, 0.31);
     --theme-parent-border-color: ##344DD0;
@@ -150,9 +89,6 @@ html, body {
     transition: all 250ms;
 }
 
-.is-active {
-}
-
 .is-default {
     margin-left: auto;
 }
@@ -173,10 +109,7 @@ html, body {
     display: flex;
     flex-direction: column;
     grid-row-gap: 20px;
-    max-width: 380px;
-    /* border: var(--calculator-border); */
-    /* box-shadow: 0px 0px 25px 12px rgba(0, 0, 0, 0.206); */
-    /* border: 0.25px solid rgba(0, 0, 0, 0.301); */
+    width: 350px;
 }
 
 /* Calculator Text */
@@ -201,18 +134,20 @@ html, body {
 }
 
 .calc_user_input {
-    color: var(--text-color-secondary)
+    color: var(--text-color-secondary);
+    word-break: break-all;
 }
 
 .calc_total {
     color: var(--text-color-total);
     font-size: 15px;
+    word-break: break-all;
 }
 
 /* Buttons */
 /* Utility Buttons */
 .button-wrapper {
-    width: 100%;
+    width: auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -220,12 +155,38 @@ html, body {
     grid-row-gap: 20px;
 }
 
-.calc_utility_button_group {
-    display: flex;
-    grid-column-gap: 5px;
+.button-background {
+    grid-area: a;
+    background-color: var(--operator-button-color-background);
+    width: 0%;
+    height: 100%;
+    transition: all 350ms;
+    justify-self: end;
+    animation-fill-mode: forwards;
+    border-radius: 6px;
 }
 
-.utility_button {
+.button-text {
+    width: 100%;
+    height: auto;
+    grid-area: a;
+    color: var(--text-color-secondary);
+    pointer-events: none;
+}
+
+.is-dark {
+    color: var(--text-color);
+}
+
+/* Utility Buttons */
+.utility-button_group {
+    display: flex;
+    grid-column-gap: 5px;
+    width: 100%;
+    justify-content: start;
+}
+
+.utility-button {
     background-color: var(--utility-button-color);
     font-weight: 600;
     width: 22%;
@@ -242,22 +203,23 @@ html, body {
     filter: var(--button-filter)
 }
 
-.utility_button:hover {
-    background-color: var(--utility-button-color-hover);
+.utility-button-background {
+    background-color: var(--utility-button-color-background);
 }
 
 /* Number Buttons */
-.calc_numeric_button_group {
+.num-button_group {
     display: flex;
     flex-wrap: wrap;
     grid-row-gap: 6px;
     grid-column-gap: 5px;
+    width: 100%;
+    justify-content: space-between;
 }
 
-.num_button {
+.num-button {
     background-color: var(--number-button-color);
     width: 23.5%;
-    color: var(--text-color);
     font-weight: 600;
     height: 25px;
     font-family: Arial, Helvetica, sans-serif;
@@ -272,20 +234,26 @@ html, body {
     filter: var(--button-filter)
 }
 
-.num_button:hover { 
-    background-color: var(--number-button-color-hover);
+.num-button > p {
+    color: var(--number-text-color)
+}
+
+.num-button-background {
+    background-color: var(--number-button-color-background);
 }
 
 /* Operator Buttons */
-.calc_math_butt_group {
+.operator-button_group {
     display: flex;
     flex-wrap: wrap;
     grid-row-gap: 6px;
     grid-column-gap: 5px;
+    width: 100%;
+    justify-content: start;
 }
 
 .operator_button {
-    width: 80px;
+    width: 30%;
     height: 25px;
     background-color: var(--operator-button-color);
     color: var(--text-color);
@@ -301,39 +269,19 @@ html, body {
     filter: var(--button-filter);
 }
 
-.operator_button:hover { 
-    /* background-color: var(--operator-button-color-hover); */
-}
-
+/* Button Animations */
 .button-animation_wrapper {
     display: grid;
     grid-template:
-        "a a" 50%
-        "a a" 50%;
+        "a a" 100%
+        "a a" 100%;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     padding: 0;
     margin: 0;
     height: 45px;
-    width: 100px;
+    width: 32%;
     overflow: hidden;
-}
-
-.button-background {
-    grid-area: a;
-    background-color: var(--operator-button-color-background);
-    width: 0%;
-    height: 100%;
-    transition: all 350ms;
-    justify-self: end;
-    animation-fill-mode: forwards;
-}
-
-.button-text {
-    width: 100%;
-    height: auto;
-    grid-area: a;
-    color: var(--text-color-secondary);
 }
 
 .button-animation_wrapper:hover > .button-background {

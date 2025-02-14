@@ -6,14 +6,18 @@ function getCSSVar(variable) {
 
 function animateButtonPress(button) {
     let keyDown = gsap.timeline({ defaults: { duration: 0.01, ease: "bounce.out" }})
-    
-    keyDown.to(button, {
-        y: 5,
-        filter: `${getCSSVar('--pressed-button-filter')}`
-    }).to(button, {
-        y: 0,
-        filter: `${getCSSVar('--button-filter')}`,
-        delay: 0.135
+    keyDown.to(button.children[0], {
+        justifySelf: 'start',
+        width: '100%',
+        duration: '250ms'
+    }).to(button.children[0], {
+        justifySelf: 'end',
+        width: '0%',
+        delay: 0.25,
+        duration: '250ms',
+        onComplete () {
+            button.children[0].style = '';
+        }
     })
 }
 
