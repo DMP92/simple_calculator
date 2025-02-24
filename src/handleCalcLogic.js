@@ -42,6 +42,26 @@ function handleBackspace() {
     }
 }
 
+function flipNumberSign(number) {
+    const sign = Math.sign(number) 
+    if(sign === 1) {
+        return number * -1;
+    } else if (sign === -1) {
+        return number * -1;
+    } else {
+        console.log(mathematics)
+        return '';
+    }
+}
+
+function stageNumberSignFlip(operand) {
+    if (operand === 'is operand #1') {
+        return mathematics.operand1 = flipNumberSign(mathematics.operand1)
+    } else {
+        return mathematics.operand2 = flipNumberSign(mathematics.operand2)
+    }
+}
+
 function updateOperator(operator) {
     if(mathematics.operand1 === '') return;
     let sign;
@@ -87,17 +107,18 @@ function handleOperandButtons(operand) {
     let num;
     typeof operand === 'string' ? num = operand : num = operand.textContent;
     // Start from scratch if no operator was chosen
-    if (mathematics.operator === '=') {
+    console.log(operand)
+    if (mathematics.operator === '=' && operand !== '- / +') {
         resetMath()
     }
     
     if (mathematics.operator === '') { // Update operand1 if no operator is ''
         if (preventIncorrectOperandInput(mathematics.operand1, num)) {
-            mathematics.operand1 = formatNumbers(num, mathematics.operand1)
+            operand === '- / +' ? stageNumberSignFlip('is operand #1') : mathematics.operand1 = formatNumbers(num, mathematics.operand1)
         }
     } else { // If operator is detected, update operand2
         if (preventIncorrectOperandInput(mathematics.operand2, num)) {
-            mathematics.operand2 = formatNumbers(num, mathematics.operand2)
+            operand === '- / +' ? stageNumberSignFlip('is operand #2') : mathematics.operand2 = formatNumbers(num, mathematics.operand2)
         }
     }
     
