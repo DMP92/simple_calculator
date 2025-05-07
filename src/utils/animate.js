@@ -1,9 +1,5 @@
 import gsap from 'gsap';
 
-function getCSSVar(variable) {
-    return getComputedStyle(document.body).getPropertyValue(variable);
-}
-
 function animateButtonPress(button) {
     let keyDown = gsap.timeline({ defaults: { duration: 0.01, ease: "bounce.out" }})
     keyDown.to(button.children[0], {

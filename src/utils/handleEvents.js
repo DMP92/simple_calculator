@@ -1,7 +1,8 @@
-import { handleOperandButtons, updateOperator, handleCalculatorUtilityButtons } from './handleCalcLogic.js';
-import { animateButtonPress, animateDarkModeToggle } from './animate.js';
+import { handleOperandButtons, updateOperator, handleCalculatorUtilityButtons } from '../logic/handleCalcLogic.js';
+import { animateButtonPress } from './animate.js';
+import { handleLightAndDarkMode, handleDarkModeToggle } from '../theme/darkMode.js'
 
-// Handle operand button clicks
+// Handle operand button clicks (1, 2, 3, 4, ...)
 function handleOperandClicks() {
     const operand = document.querySelectorAll('[button-type="operand"]');
     operand.forEach(op => {
@@ -11,7 +12,7 @@ function handleOperandClicks() {
     })
 }
 
-// Handle operator button clicks
+// Handle operator button clicks (*, +, /, -)
 function handleOperatorClicks() {
     const operator = document.querySelectorAll('[button-type="operator"]')
     operator.forEach(op => {
@@ -21,7 +22,7 @@ function handleOperatorClicks() {
     })
 }
 
-// Handle utility button clicks
+// Handle utility button clicks (Clear, Undo)
 function handleUtilClicks() {
     const utils = document.querySelectorAll('[button-type="util"]')
     utils.forEach(util => {
@@ -31,17 +32,18 @@ function handleUtilClicks() {
     })
 }
 
+// Handles all key press events - regardless of if they are supported or not
 function handleKeyPress() {
     let pressedKeyText;
-
     window.addEventListener('keydown', (e) => {
-        if(!isNaN(e.key)) {
+        if(!isNaN(e.key)) { // Handle number keys
+            console.log(e.key);
             handleOperandButtons(e.key)
             pressedKeyText = e.key;
-        } else if(e.key === '.') {
+        } else if(e.key === '.') { // Handle decimal point key
             handleOperandButtons(e.key)
             pressedKeyText = e.key;
-        } else if (['+', '-', '*', '/', '=', 'Enter'].includes(e.key)) {
+        } else if (['+', '-', '*', '/', '=', 'Enter'].includes(e.key)) { // Handle operator keys
             if(e.key === 'Enter') {
                 updateOperator('=')
                 pressedKeyText = '=';
@@ -49,7 +51,7 @@ function handleKeyPress() {
                 updateOperator(e.key)
                 pressedKeyText = e.key;
             }
-        } else if (['Backspace', 'Escape'].includes(e.key)) {
+        } else if (['Backspace', 'Escape'].includes(e.key)) { // If backspace or escape is pressed
             if(e.key === 'Escape') {
                 handleCalculatorUtilityButtons('Clear');
                 pressedKeyText = 'Clear';
@@ -57,7 +59,7 @@ function handleKeyPress() {
                 handleCalculatorUtilityButtons('Undo');
                 pressedKeyText = 'Undo';
             }
-        } else {
+        } else { // Handle non-supported keys
             pressedKeyText = '';
         }
         
@@ -65,57 +67,20 @@ function handleKeyPress() {
     })
 }
 
+// Prepare button animation
 function tieKeyPressToButtonElements(pressedKey) {
     const calcButtons = document.querySelectorAll('.calc_button');
     calcButtons.forEach(button => {
         let buttonText = button.querySelector('.button-text')?.textContent.trim();
 
         if(buttonText === pressedKey) {
-            console.log(buttonText)
             return animateButtonPress(button)
         }
-        // else if (button.children[1].textContent === pressedKey) {
-        //     console.log(button.children)
-        // }
-        // console.log(button.textContent === pressedKey, button.textContent, pressedKey)
-        // return buttonText === pressedKey ? animateButtonPress(button) : undefined;
     })
 }
 
-function handleLightAndDarkMode() {
-    const chosenMode = document.querySelector('.toggle');
-    const body = document.body;
-    
-    chosenMode.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-
-        const isDarkMode = body.classList.contains('dark-mode');
-        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
-    })
-    
-    window.onload = () => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-mode');
-            chosenMode.classList.toggle('is-active')
-            animateDarkModeToggle(chosenMode)
-        }
-    }
-}
-
+// Dark mode 
 handleLightAndDarkMode()
-
-/**
- * Darkmode Toggle
-*/
-function handleDarkModeToggle() {
-    const toggle = document.querySelector('.toggle');
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('is-active')
-        animateDarkModeToggle(toggle)
-    })
-}
-
 handleDarkModeToggle()
 
 export { handleOperandClicks, handleOperatorClicks, handleUtilClicks, handleKeyPress }

@@ -1,10 +1,10 @@
 import Calc from "./Calc";
-import printToScreen from "./printToScreen";
-import { animateButtonPress } from "./animate";
+import printToScreen from "../components/printToScreen";
 
-let calculator = new Calc();
+// Calculator logic
+const calculator = new Calc();
 
-// State
+// Calculator state
 let mathematics = {
     operand1: '',
     operator: '',
@@ -13,17 +13,17 @@ let mathematics = {
 }
 
 function formatNumbers (text, operand) {
-    let concatOperandWithText = operand.concat(text);
+    let concatTextToOperand = operand.concat(text);
     let updatedOperand;
-    if (text === '.' && operand === '') {
+    if (text === '.' && operand === '') { // If operand is empty & the first value entered is a decimal point
         return operand.concat('0', '.')
-    } else if (text === '.' && operand != '') {
+    } else if (text === '.' && operand != '') { // If the operand isn't empty and a decimal is added
         text = '.'
-        updatedOperand = concatOperandWithText;
+        updatedOperand = concatTextToOperand;
     } else if (text === '0' && operand.indexOf('0.') != -1) {
-        updatedOperand = concatOperandWithText;
-    } else {
-        updatedOperand = Number(concatOperandWithText);
+        updatedOperand = concatTextToOperand;
+    } else { // Switch value to a number to clip off improper formatting
+        updatedOperand = Number(concatTextToOperand);
     }
 
     return updatedOperand.toString();
@@ -154,8 +154,8 @@ function handleOperandButtons(operand) {
 
 // Call Calculator module
 function handleMath() {
-    let a = Number(mathematics.operand1);
-    let b = Number(mathematics.operand2);
+    const a = Number(mathematics.operand1);
+    const b = Number(mathematics.operand2);
 
     switch(true) {
         case mathematics.operator == '/':
